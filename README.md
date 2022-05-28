@@ -13,7 +13,7 @@
 
 'update-coffee/coffee_id/' - (e.g: update-coffee/3/) Use coffee item id instead of coffee_id to update a existing coffee item
 
-'add-recommended-coffee/ - Add a recommend coffee items to the database
+'add-recommended-coffee/' - Add a recommend coffee items to the database
 
 'get-recommended-coffee/' -  Get all existing recommend coffee items from database 
 
