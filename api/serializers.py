@@ -30,7 +30,19 @@ class CoffeeSerializers(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class RecommendedCoffeeSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Coffee
+        fields = '__all__'
+
+
 class TokenSerializers(serializers.ModelSerializer):
     class Meta:
         model = Token
+        fields = '__all__'
+
+
+class OrderSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Order
         fields = '__all__'

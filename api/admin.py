@@ -17,3 +17,6 @@ class AccountAdmin(UserAdmin):
 
 admin.site.register(Account, AccountAdmin)
 admin.site.register(Coffee)
+admin.site.register(RecommendedCoffee)
+admin.site.register(IsFavourite)
+admin.site.register(Order)

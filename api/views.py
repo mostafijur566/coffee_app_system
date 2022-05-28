@@ -11,6 +11,7 @@ from rest_framework.authtoken.models import Token
 
 class RegistrationView(APIView):
     permission_classes = []
+
     def post(self, request):
         serializer = RegistrationSerializer(data=request.data)
         data = {}
@@ -28,6 +29,18 @@ class RegistrationView(APIView):
 
 
 @permission_classes([IsAuthenticated])
+@api_view(['POST'])
+def addCoffee(request):
+    serializer = CoffeeSerializers(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        data = serializer.data
+    else:
+        data = serializer.errors
+    return Response(data)
+
+
+@permission_classes([IsAuthenticated])
 @api_view(['GET'])
 def getCoffee(request):
     coffee = Coffee.objects.all()
@@ -39,6 +52,52 @@ def getCoffee(request):
         }
     )
 
+
+@api_view(['PUT'])
+def updateCoffee(request, pk):
+    coffee = Coffee.objects.get(id=pk)
+    serializer = CoffeeSerializers(coffee, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+
+    return Response(serializer.data)
+
+
+@permission_classes([IsAuthenticated])
+@api_view(['POST'])
+def addRecommendedCoffee(request):
+    serializer = RecommendedCoffeeSerializers(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        data = serializer.data
+    else:
+        data = serializer.errors
+    return Response(data)
+
+
+@permission_classes([IsAuthenticated])
+@api_view(['GET'])
+def getRecommendedCoffee(request):
+    coffee = RecommendedCoffee.objects.all()
+    serializer = RecommendedCoffeeSerializers(coffee, many=True)
+    return Response(
+        {
+            "total_items": RecommendedCoffee.objects.count(),
+            "coffee": serializer.data
+        }
+    )
+
+
+@api_view(['PUT'])
+def updateRecommendedCoffee(request, pk):
+    coffee = RecommendedCoffee.objects.get(id=pk)
+    serializer = RecommendedCoffeeSerializers(coffee, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+
+    return Response(serializer.data)
+
+
 @api_view(['GET'])
 def getRole(request, pk):
     token = Token.objects.get(key=pk)
@@ -47,4 +106,39 @@ def getRole(request, pk):
     account = Account.objects.get(username=user)
     accountSerializer = RegistrationSerializer(account, many=False)
 
-    return Response(accountSerializer.data['role'])
+    return Response(
+        {
+            "role": accountSerializer.data['role'],
+            "user": user
+        }
+    )
+
+
+@permission_classes([IsAuthenticated])
+@api_view(['POST'])
+def makeOrder(request):
+    serializer = OrderSerializers(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        data = serializer.data
+    else:
+        data = serializer.errors
+    return Response(data)
+
+
+@api_view(['GET'])
+def getOrder(request):
+    order = Order.objects.all()
+    serializer = OrderSerializers(order, many=True)
+    return Response(
+        {
+            "all_orders": serializer.data
+        }
+    )
+
+
+@api_view(['DELETE'])
+def orderDelete(request, pk):
+    order = Order.objects.get(id=pk)
+    order.delete()
+    return Response({'response': 'order was deleted!'})

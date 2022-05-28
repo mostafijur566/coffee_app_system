@@ -80,10 +80,53 @@ class Coffee(models.Model):
     shopName = models.CharField(max_length=60)
     coffeeShopID = models.CharField(max_length=200)
     location = models.CharField(max_length=200)
-    user = models.ForeignKey(Account, on_delete=models.CASCADE, null=False, blank=False)
+    user = models.ForeignKey(Account, on_delete=models.CASCADE, null=False, blank=False, related_name='user')
 
     def __str__(self):
         return self.name[0:50]
+
+    class Meta:
+        ordering = ['-updated_at']
+
+
+class RecommendedCoffee(models.Model):
+    name = models.CharField(max_length=60)
+    ratings = models.CharField(max_length=5)
+    taste = models.TextField()
+    coffeeType = models.CharField(max_length=60)
+    price = models.CharField(max_length=60)
+    img = models.CharField(max_length=200)
+    updated_at = models.DateTimeField(auto_now_add=True)
+    shopName = models.CharField(max_length=60)
+    coffeeShopID = models.CharField(max_length=200)
+    location = models.CharField(max_length=200)
+    user = models.ForeignKey(Account, on_delete=models.CASCADE, null=False, blank=False, related_name='r_coffee')
+
+    def __str__(self):
+        return self.name[0:50]
+
+    class Meta:
+        ordering = ['-updated_at']
+
+
+class IsFavourite(models.Model):
+    coffee_name = models.ForeignKey(Coffee, on_delete=models.CASCADE, null=False, blank=False)
+    user = models.ForeignKey(Account, on_delete=models.CASCADE, null=False, blank=False)
+
+
+class Order(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE, null=False, blank=False)
+    coffee_id = models.ForeignKey(Coffee, on_delete=models.CASCADE, null=False, blank=False)
+    name = models.CharField(max_length=200)
+    size = models.CharField(max_length=10)
+    quantity = models.IntegerField()
+    address = models.CharField(max_length=200)
+    contact = models.CharField(max_length=15)
+    updated_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         ordering = ['-updated_at']
