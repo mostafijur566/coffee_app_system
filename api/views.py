@@ -53,6 +53,7 @@ def getCoffee(request):
     )
 
 
+@permission_classes([IsAuthenticated])
 @api_view(['PUT'])
 def updateCoffee(request, pk):
     coffee = Coffee.objects.get(id=pk)
@@ -88,6 +89,7 @@ def getRecommendedCoffee(request):
     )
 
 
+@permission_classes([IsAuthenticated])
 @api_view(['PUT'])
 def updateRecommendedCoffee(request, pk):
     coffee = RecommendedCoffee.objects.get(id=pk)
@@ -98,6 +100,7 @@ def updateRecommendedCoffee(request, pk):
     return Response(serializer.data)
 
 
+@permission_classes([IsAuthenticated])
 @api_view(['GET'])
 def getRole(request, pk):
     token = Token.objects.get(key=pk)
@@ -126,6 +129,7 @@ def makeOrder(request):
     return Response(data)
 
 
+@permission_classes([IsAuthenticated])
 @api_view(['GET'])
 def getOrder(request):
     order = Order.objects.all()
@@ -137,6 +141,7 @@ def getOrder(request):
     )
 
 
+@permission_classes([IsAuthenticated])
 @api_view(['DELETE'])
 def orderDelete(request, pk):
     order = Order.objects.get(id=pk)
