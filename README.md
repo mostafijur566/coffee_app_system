@@ -25,7 +25,7 @@
 
 'update-recommended-coffee/coffee_id/' - (e.g: update-coffee/3/) Use coffee item id instead of coffee_id to update a existing coffee item
 
-'is-favourite/coffee_id/' - - (e.g: is-favourite/3/) Use coffee item id instead of coffee_id to add the item as favourite
+'is-favourite/coffee_id/' - (e.g: is-favourite/3/) Use coffee item id instead of coffee_id to add the item as favourite
 
 'get-order/' - Get all order
 
