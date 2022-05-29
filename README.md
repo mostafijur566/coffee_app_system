@@ -1,5 +1,5 @@
 # Instruction
-> "Coffee Store Management
+> "Coffee Store Management"
 
 ## All endpoints
 ```bash
@@ -7,9 +7,13 @@
 
 'login/' - User login
 
+'get-user/token/' - (e.g: get-user/234sdflasdg/) Pass the token and get the user name and the user role
+
 'add-coffee/' - Add a coffee items to the database
 
 'get-coffee/' - Get all existing coffee items from database 
+
+'get-single-item/coffee_id' - (e.g: get-single-item/3/) Use coffee item id instead of coffee_id to get data of single item of coffee
 
 'update-coffee/coffee_id/' - (e.g: update-coffee/3/) Use coffee item id instead of coffee_id to update a existing coffee item
 
@@ -17,9 +21,11 @@
 
 'get-recommended-coffee/' -  Get all existing recommend coffee items from database 
 
+'get-single-recommended-item/coffee_id' - (e.g: get-single-recommended-item/3/) Use coffee item id instead of coffee_id to get data of single item of coffee
+
 'update-recommended-coffee/coffee_id/' - (e.g: update-coffee/3/) Use coffee item id instead of coffee_id to update a existing coffee item
 
-'get-user/token/' - (e.g: get-user/234sdflasdg/) Pass the token and get the user name and the user role
+'is-favourite/coffee_id/' - - (e.g: is-favourite/3/) Use coffee item id instead of coffee_id to add the item as favourite
 
 'get-order/' - Get all order
 
@@ -52,6 +58,16 @@ How to pass json data using 'login/' endpoint-
 And server will return a token save the token for future use.
 ```
 
+## Get username and role - GET Request
+```bash
+Use 'get-user/token/' to get user info. You need to pass the token in the endpoint to get that user info.
+
+and pass headers{
+"Authorization": "Token ad6a56f22bba5043a1df2bc44655f205be7057a3"
+}
+Read flutter documentation for more info.
+```
+
 ## Add a coffee item - POST Request
 ```bash
 How to pass json data using 'add-coffee/' endpoint-
@@ -76,6 +92,15 @@ Read flutter documentation for more info.
 ## Get all coffee - GET Request
 ```bash
 Use 'get-coffee/' to get all coffee items from server
+and pass headers{
+"Authorization": "Token ad6a56f22bba5043a1df2bc44655f205be7057a3"
+}
+Read flutter documentation for more info.
+```
+
+## Get single item of coffee - GET Request
+```bash
+Use 'get-single-item/coffee_id/' to get single coffee item from server
 and pass headers{
 "Authorization": "Token ad6a56f22bba5043a1df2bc44655f205be7057a3"
 }
@@ -134,6 +159,15 @@ and pass headers{
 Read flutter documentation for more info.
 ```
 
+## Get single recommended item of coffee - GET Request
+```bash
+Use 'get-single-recommended-item/coffee_id/' to get single coffee item from server
+and pass headers{
+"Authorization": "Token ad6a56f22bba5043a1df2bc44655f205be7057a3"
+}
+Read flutter documentation for more info.
+```
+
 ## Update a coffee item - PUT Request
 ```bash
 How to pass json data using 'update-recommended-coffee/coffee_id/' endpoint-
@@ -156,9 +190,13 @@ and pass headers{
 Read flutter documentation for more info.
 ```
 
-## Get username and role - GET Request
+## Add a coffee item as favourite - PATCH Request
 ```bash
-Use 'get-user/token/' to get user info. You need to pass the token in the endpoint to get that user info.
+Use 'is-favourite/coffee_id' to add an item as favourite.
+How to pass json data using the endpoint-
+{
+    "isFavourite": true
+}
 
 and pass headers{
 "Authorization": "Token ad6a56f22bba5043a1df2bc44655f205be7057a3"
