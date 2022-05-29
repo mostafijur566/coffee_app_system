@@ -133,6 +133,7 @@ def getRole(request, pk):
     )
 
 
+@permission_classes([IsAuthenticated])
 @api_view(['PATCH'])
 def isFavourite(request, pk):
     try:
@@ -151,6 +152,17 @@ def isFavourite(request, pk):
                 "response": "wrong user"
             }
         )
+
+
+@permission_classes([IsAuthenticated])
+@api_view(['GET'])
+def getFavourite(request):
+    coffee = Coffee.objects.filter(isFavourite=True, user=request.user)
+    serializer = CoffeeSerializers(coffee, many=True)
+    return Response({
+        "total_favourite": coffee.count(),
+        "favourite": serializer.data
+    })
 
 
 @permission_classes([IsAuthenticated])
