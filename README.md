@@ -27,6 +27,8 @@
 
 'is-favourite/coffee_id/' - (e.g: is-favourite/3/) Use coffee item id instead of coffee_id to add the item as favourite
 
+'get-favourite/' - Get all favourite coffee items that user marked as favourite
+
 'get-order/' - Get all order
 
 'make-order/' - User can make a order
@@ -197,6 +199,16 @@ How to pass json data using the endpoint-
 {
     "isFavourite": true
 }
+
+and pass headers{
+"Authorization": "Token ad6a56f22bba5043a1df2bc44655f205be7057a3"
+}
+Read flutter documentation for more info.
+```
+
+## Get favourite coffee items - GET Request
+```bash
+Use 'get-favourite/' to get all favourite items that user marked as favourite
 
 and pass headers{
 "Authorization": "Token ad6a56f22bba5043a1df2bc44655f205be7057a3"
