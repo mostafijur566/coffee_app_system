@@ -1,5 +1,5 @@
 # Instruction
-> "Coffee Store Management
+> "Coffee Store Management"
 
 ## All endpoints
 ```bash
