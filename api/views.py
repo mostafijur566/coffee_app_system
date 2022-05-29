@@ -54,6 +54,14 @@ def getCoffee(request):
 
 
 @permission_classes([IsAuthenticated])
+@api_view(['GET'])
+def getSingleItem(request, pk):
+    coffee = Coffee.objects.get(id=pk)
+    serializer = CoffeeSerializers(coffee, many=False)
+    return Response(serializer.data)
+
+
+@permission_classes([IsAuthenticated])
 @api_view(['PUT'])
 def updateCoffee(request, pk):
     coffee = Coffee.objects.get(id=pk)
@@ -90,6 +98,14 @@ def getRecommendedCoffee(request):
 
 
 @permission_classes([IsAuthenticated])
+@api_view(['GET'])
+def getSingleRecommendedItem(request, pk):
+    coffee = RecommendedCoffee.objects.get(id=pk)
+    serializer = RecommendedCoffeeSerializers(coffee, many=False)
+    return Response(serializer.data)
+
+
+@permission_classes([IsAuthenticated])
 @api_view(['PUT'])
 def updateRecommendedCoffee(request, pk):
     coffee = RecommendedCoffee.objects.get(id=pk)
@@ -115,6 +131,26 @@ def getRole(request, pk):
             "user": user
         }
     )
+
+
+@api_view(['PATCH'])
+def isFavourite(request, pk):
+    try:
+        coffee = Coffee.objects.get(id=pk, user=request.user)
+        serializer = CoffeeSerializers(coffee, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            data = serializer.data
+        else:
+            data = serializer.errors
+
+        return Response(data)
+    except:
+        return Response(
+            {
+                "response": "wrong user"
+            }
+        )
 
 
 @permission_classes([IsAuthenticated])
