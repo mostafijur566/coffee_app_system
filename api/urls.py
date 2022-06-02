@@ -18,7 +18,7 @@ urlpatterns = [
     path('get-single-recommended-item/<str:pk>/', getSingleRecommendedItem),
     path('update-recommended-coffee/<str:pk>/', updateRecommendedCoffee),
 
-    path('is-favourite/<str:pk>/', isFavourite),
+    path('is-favourite/', isFavourite),
     path('get-favourite/', getFavourite),
 
     path('get-order/', getOrder),

@@ -24,6 +24,12 @@ class RegistrationSerializer(serializers.ModelSerializer):
         return account
 
 
+class TokenSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Token
+        fields = '__all__'
+
+
 class CoffeeSerializers(serializers.ModelSerializer):
     class Meta:
         model = Coffee
@@ -36,10 +42,15 @@ class RecommendedCoffeeSerializers(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class TokenSerializers(serializers.ModelSerializer):
+class IsFavouriteSerializers(serializers.ModelSerializer):
     class Meta:
-        model = Token
+        model = IsFavourite
         fields = '__all__'
+
+    # def validate(self, data):
+    #     d_coffee = Coffee.objects.all()
+    #     for n in d_coffee['name']:
+    #         print(n)
 
 
 class OrderSerializers(serializers.ModelSerializer):

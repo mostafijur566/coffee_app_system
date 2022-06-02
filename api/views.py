@@ -134,31 +134,22 @@ def getRole(request, pk):
 
 
 @permission_classes([IsAuthenticated])
-@api_view(['PATCH'])
-def isFavourite(request, pk):
-    try:
-        coffee = Coffee.objects.get(id=pk, user=request.user)
-        serializer = CoffeeSerializers(coffee, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            data = serializer.data
-        else:
-            data = serializer.errors
-
-        return Response(data)
-    except:
-        return Response(
-            {
-                "response": "wrong user"
-            }
-        )
+@api_view(['POST'])
+def isFavourite(request):
+    serializer = IsFavouriteSerializers(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        data = serializer.data
+    else:
+        data = serializer.errors
+    return Response(data)
 
 
 @permission_classes([IsAuthenticated])
 @api_view(['GET'])
 def getFavourite(request):
-    coffee = Coffee.objects.filter(isFavourite=True, user=request.user)
-    serializer = CoffeeSerializers(coffee, many=True)
+    coffee = IsFavourite.objects.filter(user=request.user)
+    serializer = IsFavouriteSerializers(coffee, many=True)
     return Response({
         "total_favourite": coffee.count(),
         "favourite": serializer.data

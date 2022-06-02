@@ -80,7 +80,6 @@ class Coffee(models.Model):
     shopName = models.CharField(max_length=60)
     coffeeShopID = models.CharField(max_length=200)
     location = models.CharField(max_length=200)
-    isFavourite = models.BooleanField(default=False)
     user = models.ForeignKey(Account, on_delete=models.CASCADE, null=False, blank=False)
 
     def __str__(self):
@@ -111,12 +110,18 @@ class RecommendedCoffee(models.Model):
         ordering = ['-updated_at']
 
 
+class IsFavourite(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE, null=False, blank=False)
+    coffee = models.ForeignKey(Coffee, on_delete=models.CASCADE, null=False, blank=False)
+
+
 class Order(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE, null=False, blank=False)
     coffee_id = models.ForeignKey(Coffee, on_delete=models.CASCADE, null=False, blank=False)
     name = models.CharField(max_length=200)
     size = models.CharField(max_length=10)
     quantity = models.IntegerField()
+    shop_name = models.CharField(max_length=200)
     address = models.CharField(max_length=200)
     contact = models.CharField(max_length=15)
     updated_at = models.DateTimeField(auto_now_add=True)
