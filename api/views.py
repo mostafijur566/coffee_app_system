@@ -9,6 +9,7 @@ from rest_framework.authtoken.models import Token
 
 # Create your views here.
 
+# Registration
 class RegistrationView(APIView):
     permission_classes = []
 
@@ -28,6 +29,7 @@ class RegistrationView(APIView):
         return Response(data)
 
 
+# Add coffee item
 @permission_classes([IsAuthenticated])
 @api_view(['POST'])
 def addCoffee(request):
@@ -40,6 +42,7 @@ def addCoffee(request):
     return Response(data)
 
 
+# Get all coffee items
 @permission_classes([IsAuthenticated])
 @api_view(['GET'])
 def getCoffee(request):
@@ -53,6 +56,7 @@ def getCoffee(request):
     )
 
 
+# Get single coffee item
 @permission_classes([IsAuthenticated])
 @api_view(['GET'])
 def getSingleItem(request, pk):
@@ -61,11 +65,12 @@ def getSingleItem(request, pk):
     return Response(serializer.data)
 
 
+# Update a coffee item
 @permission_classes([IsAuthenticated])
-@api_view(['PUT'])
+@api_view(['PATCH'])
 def updateCoffee(request, pk):
     coffee = Coffee.objects.get(id=pk)
-    serializer = CoffeeSerializers(coffee, data=request.data)
+    serializer = CoffeeSerializers(coffee, data=request.data, partial=True)
     if serializer.is_valid():
         serializer.save()
 
@@ -79,41 +84,34 @@ def addRecommendedCoffee(request):
     if serializer.is_valid():
         serializer.save()
         data = serializer.data
+
     else:
         data = serializer.errors
-    return Response(data)
+
+    return Response({
+        "message": data
+    })
 
 
 @permission_classes([IsAuthenticated])
 @api_view(['GET'])
 def getRecommendedCoffee(request):
-    coffee = RecommendedCoffee.objects.all()
-    serializer = RecommendedCoffeeSerializers(coffee, many=True)
-    return Response(
-        {
-            "total_items": RecommendedCoffee.objects.count(),
-            "coffee": serializer.data
-        }
-    )
+    coffees = RecommendedCoffee.objects.all()
+    serializer = RecommendedCoffeeSerializers(coffees, many=True)
+    return Response({
+        "total_items": coffees.count(),
+        "recommended_coffees": serializer.data
+    })
 
 
 @permission_classes([IsAuthenticated])
-@api_view(['GET'])
-def getSingleRecommendedItem(request, pk):
+@api_view(['DELETE'])
+def deleteRecommendedCoffee(request, pk):
     coffee = RecommendedCoffee.objects.get(id=pk)
-    serializer = RecommendedCoffeeSerializers(coffee, many=False)
-    return Response(serializer.data)
-
-
-@permission_classes([IsAuthenticated])
-@api_view(['PUT'])
-def updateRecommendedCoffee(request, pk):
-    coffee = RecommendedCoffee.objects.get(id=pk)
-    serializer = RecommendedCoffeeSerializers(coffee, data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-
-    return Response(serializer.data)
+    coffee.delete()
+    return Response({
+        "message": "Item was deleted!"
+    })
 
 
 @permission_classes([IsAuthenticated])
@@ -135,9 +133,17 @@ def getRole(request, pk):
 
 @permission_classes([IsAuthenticated])
 @api_view(['POST'])
-def isFavourite(request):
+def addIsFavourite(request):
     serializer = IsFavouriteSerializers(data=request.data)
     if serializer.is_valid():
+        for n in IsFavourite.objects.filter(user=request.user):
+            coffee = str(n.coffee)
+            if request.data['coffee'] == coffee:
+                return Response({
+                    "error": "This item already in your favourite list"
+                })
+            else:
+                print( n.coffee, " ",request.data['coffee'])
         serializer.save()
         data = serializer.data
     else:
@@ -147,12 +153,28 @@ def isFavourite(request):
 
 @permission_classes([IsAuthenticated])
 @api_view(['GET'])
-def getFavourite(request):
+def getIsFavourite(request):
     coffee = IsFavourite.objects.filter(user=request.user)
     serializer = IsFavouriteSerializers(coffee, many=True)
     return Response({
-        "total_favourite": coffee.count(),
-        "favourite": serializer.data
+        "is_favourite": serializer.data
+    })
+
+
+@permission_classes([IsAuthenticated])
+@api_view(['PATCH'])
+def isFavourite(request, pk):
+    coffee = IsFavourite.objects.get(id=pk)
+    serializer = IsFavouriteSerializers(coffee, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        data = serializer.data
+
+    else:
+        data = serializer.errors
+
+    return Response({
+        data
     })
 
 

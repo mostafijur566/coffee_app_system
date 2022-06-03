@@ -15,11 +15,11 @@ urlpatterns = [
 
     path('add-recommended-coffee/', addRecommendedCoffee),
     path('get-recommended-coffee/', getRecommendedCoffee),
-    path('get-single-recommended-item/<str:pk>/', getSingleRecommendedItem),
-    path('update-recommended-coffee/<str:pk>/', updateRecommendedCoffee),
+    path('delete-recommended-coffee/<str:pk>/', deleteRecommendedCoffee),
 
-    path('is-favourite/', isFavourite),
-    path('get-favourite/', getFavourite),
+    path('add-is-favourite/', addIsFavourite),
+    path('get-is-favourite/', getIsFavourite),
+    path('is-favourite/<str:pk>/', isFavourite),
 
     path('get-order/', getOrder),
     path('make-order/', makeOrder),

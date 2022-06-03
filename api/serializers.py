@@ -39,7 +39,7 @@ class CoffeeSerializers(serializers.ModelSerializer):
 
 class RecommendedCoffeeSerializers(serializers.ModelSerializer):
     class Meta:
-        model = Coffee
+        model = RecommendedCoffee
         fields = '__all__'
 
 
@@ -48,10 +48,17 @@ class IsFavouriteSerializers(serializers.ModelSerializer):
         model = IsFavourite
         fields = '__all__'
 
-    # def validate(self, data):
-    #     d_coffee = Coffee.objects.all()
-    #     for n in d_coffee['name']:
-    #         print(n)
+    def validate(self, data):
+        if data['coffee']:
+            # print('test')
+            # for n in IsFavourite.objects.all():
+            #     print(n)
+            #     if n.coffee == data['coffee']:
+            #         raise serializers.ValidationError({
+            #             "Error": "This item already in your favourite list"
+            #         })
+
+            return data
 
 
 class OrderSerializers(serializers.ModelSerializer):

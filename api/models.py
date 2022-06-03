@@ -84,7 +84,7 @@ class Account(AbstractBaseUser):
 
 
 class Coffee(models.Model):
-    name = models.CharField(max_length=60)
+    name = models.CharField(max_length=60, unique=True, primary_key=True)
     image = models.ImageField(null=False, blank=False)
     ratings = models.DecimalField(max_digits=3, decimal_places=2)
     taste = models.CharField(max_length=60)
@@ -104,9 +104,13 @@ class Coffee(models.Model):
 
 class RecommendedCoffee(models.Model):
     recommend = models.OneToOneField(Coffee, on_delete=models.CASCADE, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.recommend.name[0:50]
+
+    class Meta:
+        ordering = ['-created_at']
 
 
 class IsFavourite(models.Model):
@@ -114,6 +118,8 @@ class IsFavourite(models.Model):
     favourite = models.BooleanField(default=False)
     coffee = models.ForeignKey(Coffee, on_delete=models.CASCADE, null=False, blank=False)
 
+    def __str__(self):
+        return self.coffee.name
 
 class Order(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE, null=False, blank=False)
