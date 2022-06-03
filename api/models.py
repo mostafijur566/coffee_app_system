@@ -42,10 +42,24 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
         Token.objects.create(user=instance)
 
 
+class ShopName(models.Model):
+    coffee_shop_id = models.IntegerField(unique=True, primary_key=True)
+    name = models.CharField(max_length=60)
+    location = models.CharField(max_length=200)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Account(AbstractBaseUser):
     name = models.CharField(max_length=200)
     email = models.EmailField(max_length=60, unique=True)
     username = models.CharField(max_length=30, unique=True, primary_key=True)
+    profile = models.ImageField(null=True, blank=True)
+    contact = models.CharField(max_length=15)
+    address = models.CharField(max_length=200)
+    shopName = models.ForeignKey(ShopName, on_delete=models.CASCADE, null=True, blank=True)
     date_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(auto_now=True)
     role = models.CharField(max_length=10)
@@ -71,15 +85,14 @@ class Account(AbstractBaseUser):
 
 class Coffee(models.Model):
     name = models.CharField(max_length=60)
-    ratings = models.CharField(max_length=5)
-    taste = models.TextField()
+    image = models.ImageField(null=False, blank=False)
+    ratings = models.DecimalField(max_digits=3, decimal_places=2)
+    taste = models.CharField(max_length=60)
     coffeeType = models.CharField(max_length=60)
-    price = models.CharField(max_length=60)
-    img = models.CharField(max_length=200)
-    updated_at = models.DateTimeField(auto_now_add=True)
-    shopName = models.CharField(max_length=60)
-    coffeeShopID = models.CharField(max_length=200)
-    location = models.CharField(max_length=200)
+    description = models.TextField()
+    price = models.IntegerField()
+    updated_at = models.DateTimeField(auto_now=True)
+    shopName = models.ForeignKey(ShopName, on_delete=models.CASCADE, null=False, blank=False)
     user = models.ForeignKey(Account, on_delete=models.CASCADE, null=False, blank=False)
 
     def __str__(self):
@@ -90,28 +103,15 @@ class Coffee(models.Model):
 
 
 class RecommendedCoffee(models.Model):
-    name = models.CharField(max_length=60)
-    ratings = models.CharField(max_length=5)
-    taste = models.TextField()
-    coffeeType = models.CharField(max_length=60)
-    price = models.CharField(max_length=60)
-    img = models.CharField(max_length=200)
-    updated_at = models.DateTimeField(auto_now_add=True)
-    shopName = models.CharField(max_length=60)
-    coffeeShopID = models.CharField(max_length=200)
-    location = models.CharField(max_length=200)
-    isFavourite = models.BooleanField(default=False)
-    user = models.ForeignKey(Account, on_delete=models.CASCADE, null=False, blank=False, related_name='r_coffee')
+    recommend = models.OneToOneField(Coffee, on_delete=models.CASCADE, unique=True)
 
     def __str__(self):
-        return self.name[0:50]
-
-    class Meta:
-        ordering = ['-updated_at']
+        return self.recommend.name[0:50]
 
 
 class IsFavourite(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE, null=False, blank=False)
+    favourite = models.BooleanField(default=False)
     coffee = models.ForeignKey(Coffee, on_delete=models.CASCADE, null=False, blank=False)
 
 
@@ -121,11 +121,11 @@ class Order(models.Model):
     name = models.CharField(max_length=200)
     size = models.CharField(max_length=10)
     quantity = models.IntegerField()
-    shop_name = models.CharField(max_length=200)
+    shop_name = models.ForeignKey(ShopName, on_delete=models.CASCADE, null=False, blank=False)
     address = models.CharField(max_length=200)
-    contact = models.CharField(max_length=15)
-    updated_at = models.DateTimeField(auto_now_add=True)
-    created_at = models.DateTimeField(auto_now=True)
+    contact = models.IntegerField()
+    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name

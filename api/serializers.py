@@ -6,7 +6,7 @@ from rest_framework.authtoken.models import Token
 class RegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
-        fields = ['email', 'username', 'password', 'role']
+        fields = ['email', 'username', 'password', 'role', 'profile']
         extra_kwargs = {
             'password': {'write_only': True}
         }
@@ -15,7 +15,8 @@ class RegistrationSerializer(serializers.ModelSerializer):
         account = Account(
             email=self.validated_data['email'],
             username=self.validated_data['username'],
-            role=self.validated_data['role']
+            role=self.validated_data['role'],
+            profile=self.validated_data['profile']
         )
 
         password = self.validated_data['password']
