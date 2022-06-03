@@ -40,10 +40,15 @@
 ```bash
 How to pass json data using 'register/' endpoint-
 {
+   "name": "test",
    "email": "test@gmail.com",
    "username": "test",
-   "password": "test123"
-   "role": "buyer"
+   "password": "test123",
+   "role": "buyer",
+   "profile": "image file",
+   "contact": 017,
+   "address": "Chittagong",
+   "shopName": "Cafe"
 }
 
 And server will return a token save the token for future use.

@@ -57,7 +57,7 @@ class Account(AbstractBaseUser):
     email = models.EmailField(max_length=60, unique=True)
     username = models.CharField(max_length=30, unique=True, primary_key=True)
     profile = models.ImageField(null=True, blank=True)
-    contact = models.CharField(max_length=15)
+    contact = models.IntegerField()
     address = models.CharField(max_length=200)
     shopName = models.ForeignKey(ShopName, on_delete=models.CASCADE, null=True, blank=True)
     date_joined = models.DateTimeField(auto_now_add=True)
