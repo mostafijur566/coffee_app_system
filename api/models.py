@@ -56,10 +56,6 @@ class Account(AbstractBaseUser):
     name = models.CharField(max_length=200)
     email = models.EmailField(max_length=60, unique=True)
     username = models.CharField(max_length=30, unique=True, primary_key=True)
-    profile = models.ImageField(null=True, blank=True)
-    contact = models.IntegerField()
-    address = models.CharField(max_length=200)
-    shopName = models.ForeignKey(ShopName, on_delete=models.CASCADE, null=True, blank=True)
     date_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(auto_now=True)
     role = models.CharField(max_length=10)
@@ -81,6 +77,17 @@ class Account(AbstractBaseUser):
 
     def has_module_perms(self, app_label):
         return True
+
+
+class ProfileInfo(models.Model):
+    user = models.OneToOneField(Account, on_delete=models.CASCADE, null=False, blank=False, unique=True)
+    profile = models.ImageField(null=True, blank=True)
+    contact = models.IntegerField(null=True, blank=True)
+    address = models.CharField(max_length=200, null=True, blank=True)
+    shopName = models.ForeignKey(ShopName, on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return self.user.name
 
 
 class Coffee(models.Model):
@@ -120,6 +127,7 @@ class IsFavourite(models.Model):
 
     def __str__(self):
         return self.coffee.name
+
 
 class Order(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE, null=False, blank=False)

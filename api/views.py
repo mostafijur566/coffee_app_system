@@ -29,6 +29,30 @@ class RegistrationView(APIView):
         return Response(data)
 
 
+@permission_classes([IsAuthenticated])
+@api_view(['POST'])
+def profileInfo(request):
+    serializer = ProfileInfoSerializers(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        data = serializer.data
+    else:
+        data = serializer.errors
+
+    return Response(data)
+
+
+@permission_classes([IsAuthenticated])
+@api_view(['GET'])
+def getShopName(request):
+    shopName = ShopName.objects.all()
+    serializer = ShopNameSerializers(shopName, many=True)
+    return Response({
+        "total_shop": shopName.count(),
+        "shops_details": serializer.data
+    })
+
+
 # Add coffee item
 @permission_classes([IsAuthenticated])
 @api_view(['POST'])
@@ -47,11 +71,14 @@ def addCoffee(request):
 @api_view(['GET'])
 def getCoffee(request):
     coffee = Coffee.objects.all()
+    shop = ShopName.objects.all()
     serializer = CoffeeSerializers(coffee, many=True)
+    shopSerializer = ShopNameSerializers(shop, many=True)
     return Response(
         {
             "total_items": Coffee.objects.count(),
-            "coffee": serializer.data
+            "coffee": serializer.data,
+            "shop_details": shopSerializer.data
         }
     )
 
@@ -60,7 +87,7 @@ def getCoffee(request):
 @permission_classes([IsAuthenticated])
 @api_view(['GET'])
 def getSingleItem(request, pk):
-    coffee = Coffee.objects.get(id=pk)
+    coffee = Coffee.objects.get(name=pk)
     serializer = CoffeeSerializers(coffee, many=False)
     return Response(serializer.data)
 
@@ -69,7 +96,7 @@ def getSingleItem(request, pk):
 @permission_classes([IsAuthenticated])
 @api_view(['PATCH'])
 def updateCoffee(request, pk):
-    coffee = Coffee.objects.get(id=pk)
+    coffee = Coffee.objects.get(name=pk)
     serializer = CoffeeSerializers(coffee, data=request.data, partial=True)
     if serializer.is_valid():
         serializer.save()
@@ -142,8 +169,6 @@ def addIsFavourite(request):
                 return Response({
                     "error": "This item already in your favourite list"
                 })
-            else:
-                print( n.coffee, " ",request.data['coffee'])
         serializer.save()
         data = serializer.data
     else:

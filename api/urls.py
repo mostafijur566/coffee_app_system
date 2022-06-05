@@ -7,6 +7,9 @@ urlpatterns = [
     path('login/', obtain_auth_token),
 
     path('get-user/<str:pk>/', getRole),
+    path('profile-info/', profileInfo),
+
+    path('get-shop-name/', getShopName),
 
     path('add-coffee/', addCoffee),
     path('get-coffee/', getCoffee),
