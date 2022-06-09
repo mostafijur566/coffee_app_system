@@ -9,6 +9,8 @@
 
 'get-user/token/' - (e.g: get-user/234sdflasdg/) Pass the token and get the user name and the user role
 
+'profile-info/' - Add profile info to the database
+
 'add-coffee/' - Add a coffee items to the database
 
 'get-coffee/' - Get all existing coffee items from database 
@@ -45,10 +47,6 @@ How to pass json data using 'register/' endpoint-
    "username": "test",
    "password": "test123",
    "role": "buyer",
-   "profile": "image file",
-   "contact": 017,
-   "address": "Chittagong",
-   "shopName": "Cafe"
 }
 
 And server will return a token save the token for future use.
@@ -68,6 +66,26 @@ And server will return a token save the token for future use.
 ## Get username and role - GET Request
 ```bash
 Use 'get-user/token/' to get user info. You need to pass the token in the endpoint to get that user info.
+
+and pass headers{
+"Authorization": "Token ad6a56f22bba5043a1df2bc44655f205be7057a3"
+}
+Read flutter documentation for more info.
+```
+
+## Add profile info - POST Request
+```bash
+How to pass json data using 'profile-info/' endpoint-
+Pass image file into "profile"
+
+{
+    "id": 1,
+    "profile": "image file",
+    "contact": 17,
+    "address": "chittagong",
+    "user": "mosta",
+    "shopName": 1
+}
 
 and pass headers{
 "Authorization": "Token ad6a56f22bba5043a1df2bc44655f205be7057a3"
