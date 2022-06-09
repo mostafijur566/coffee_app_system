@@ -48,7 +48,7 @@ How to pass json data using 'register/' endpoint-
    "profile": "image file",
    "contact": 017,
    "address": "Chittagong",
-   "shopName": "Cafe"
+   "shopName": 1"
 }
 
 And server will return a token save the token for future use.
