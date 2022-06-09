@@ -46,14 +46,7 @@ How to pass json data using 'register/' endpoint-
    "email": "test@gmail.com",
    "username": "test",
    "password": "test123",
-   "role": "buyer",
-<<<<<<< HEAD
-=======
-   "profile": "image file",
-   "contact": 017,
-   "address": "Chittagong",
-   "shopName": 1"
->>>>>>> 1737bba9b61c9eaa110f452e2e400e0ff61fceef
+   "role": "buyer"
 }
 
 And server will return a token save the token for future use.
@@ -86,11 +79,10 @@ How to pass json data using 'profile-info/' endpoint-
 Pass image file into "profile"
 
 {
-    "id": 1,
+    "user": "mosta",
     "profile": "image file",
     "contact": 17,
     "address": "chittagong",
-    "user": "mosta",
     "shopName": 1
 }
 
