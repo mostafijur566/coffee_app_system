@@ -80,7 +80,25 @@ and pass headers{
 Read flutter documentation for more info.
 ```
 
+## Add profile info - POST Request
+```bash
+How to pass json data using 'profile-info/' endpoint-
+Pass image file into "profile"
 
+{
+    "id": 1,
+    "profile": "image file",
+    "contact": 17,
+    "address": "chittagong",
+    "user": "mosta",
+    "shopName": 1
+}
+
+and pass headers{
+"Authorization": "Token ad6a56f22bba5043a1df2bc44655f205be7057a3"
+}
+Read flutter documentation for more info.
+```
 
 ## Add a coffee item - POST Request
 ```bash
