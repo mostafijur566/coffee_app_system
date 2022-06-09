@@ -47,6 +47,13 @@ How to pass json data using 'register/' endpoint-
    "username": "test",
    "password": "test123",
    "role": "buyer",
+<<<<<<< HEAD
+=======
+   "profile": "image file",
+   "contact": 017,
+   "address": "Chittagong",
+   "shopName": 1"
+>>>>>>> 1737bba9b61c9eaa110f452e2e400e0ff61fceef
 }
 
 And server will return a token save the token for future use.
@@ -73,25 +80,7 @@ and pass headers{
 Read flutter documentation for more info.
 ```
 
-## Add profile info - POST Request
-```bash
-How to pass json data using 'profile-info/' endpoint-
-Pass image file into "profile"
 
-{
-    "id": 1,
-    "profile": "image file",
-    "contact": 17,
-    "address": "chittagong",
-    "user": "mosta",
-    "shopName": 1
-}
-
-and pass headers{
-"Authorization": "Token ad6a56f22bba5043a1df2bc44655f205be7057a3"
-}
-Read flutter documentation for more info.
-```
 
 ## Add a coffee item - POST Request
 ```bash
