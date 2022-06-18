@@ -8,7 +8,7 @@ from rest_framework.authtoken.models import Token
 
 
 # Create your models here.
-
+#TODO:Create urls to get shopdetails
 class MyAccountManager(BaseUserManager):
     def create_user(self, email, username, password=None):
         if not email:
@@ -98,6 +98,7 @@ class Coffee(models.Model):
     coffeeType = models.CharField(max_length=60)
     description = models.TextField()
     price = models.IntegerField()
+    totalUser = models.IntegerField()
     updated_at = models.DateTimeField(auto_now=True)
     shopName = models.ForeignKey(ShopName, on_delete=models.CASCADE, null=False, blank=False)
     user = models.ForeignKey(Account, on_delete=models.CASCADE, null=False, blank=False)
